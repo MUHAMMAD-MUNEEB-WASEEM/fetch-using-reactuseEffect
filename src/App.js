@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+
 import './App.css';
 
 function App() {
+
+  let data = {title: "Waiting for fetching"};
+  let [todo, setTodo] = useState(data);
+
+  //1. We are fetchin data in a same way as we did in JS, but here we used useEffect
+ 
+  useEffect(()=> {
+    async function fetchData(){
+     
+      const response = await fetch("https://jsonplaceholder.typicode.com/todos/1");//fetch data, await use to get resolve response
+      //above we got the data, and to convert to json, we need await response.json();
+      console.log("response = ", response);
+
+      const data2 = await response.json();//converting to json
+      setTodo(data2);
+      console.log("data", todo);
+
+    }
+    fetchData();
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div >
+        Hello Fetch
+        <span>Title: {todo.title}</span>
     </div>
   );
 }
